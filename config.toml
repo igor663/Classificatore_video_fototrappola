@@ -1,0 +1,44 @@
+[paths]
+# Percorso principale su Ubuntu
+base_dir = "/home/igor/Videos/Video Fototrappola"
+
+# Sottocartelle (i nomi devono corrispondere esattamente a quelli sul disco)
+folder_animals = "Video Con Animali"
+folder_false_empty = "falsi vuoti"
+folder_empty = "vuoti"
+folder_others = "video con altro"
+folder_to_analyze = "video da analizzare"
+
+# Nome del file dove verrà salvato il "cervello" dell'IA
+model_output = "classificatore_fototrappola.joblib"
+results_log = "esperimenti_risultati.csv"
+
+[parameters]
+# Dimensione fissa per MobileNetV2 (non cambiare)
+img_size = 224
+
+# Analizziamo Nf frame per video
+n_frames_per_video = 40
+
+# Quanti frame su Nf devono essere "animali" per confermare il video?
+min_votes_animal = 4
+
+# Sicurezza minima (0.0 a 1.0) richiesta per ogni singolo frame
+conf_threshold_frame = 0.45
+
+# --- LOGICA VENTO ---
+# Se in un giorno ci sono più di 40 video, scatta la "modalità vento"
+soglia_video_giornalieri = 40
+# In una giornata ventosa, serve almeno l'85% di sicurezza per dire "animale"
+sicurezza_minima_vento = 0.85
+
+[sampling]
+# Metodo scelto: "gamma" o "exponential"
+method = "gamma"
+
+# k=1.5 sposta il picco di analisi nei primi 2-5 secondi (ideale per trigger PIR)
+gamma_k = 1.5
+gamma_theta = 2.0
+
+# Se volessi usare l'esponenziale (alternativa)
+exp_lambda = 0.3

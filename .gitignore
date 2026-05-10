@@ -1,0 +1,14 @@
+# Ambiente virtuale
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# File pesanti o sensibili
+*.joblib
+*.csv
+spostamenti_log.json
+.cache/
+.vscode/
