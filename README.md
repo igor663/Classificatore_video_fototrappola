@@ -27,3 +27,55 @@ Un sistema avanzato di visione artificiale per lo smistamento e la classificazio
    ```bash
    git clone https://github.com/igor663/Classificatore_video_fototrappola.git
    cd Classificatore_video_fototrappola
+
+## ⚙️ Configurazione
+
+Il sistema è interamente gestito tramite il file `config.toml`. È possibile regolare:
+
+*   **Percorsi delle cartelle**: (`Video Con Animali`, `vuoti`, `video da analizzare`).
+*   **Parametri di campionamento**: ($N_a$ frame da analizzare, soglia minima di voti).
+*   **Distribuzioni statistiche**: (Gamma $k$ e $\theta$, Exponential $\lambda$).
+*   **Soglie di sicurezza**: Parametri per la logica euristica anti-vento.
+
+## 🖥️ Utilizzo
+
+Il workflow tipico è gestito dall'**Orchestrator**, ma i singoli moduli possono essere richiamati indipendentemente:
+
+### 1. Training
+Analizza i video già classificati per addestrare la Random Forest.
+```bash
+python3 final_trainer.py
+```
+
+### 2. Simulazione
+Testa l'accuratezza del modello su un campione randomico senza spostare alcun file.
+```bash
+python3 simulator_classifier.py
+```
+
+### 3. Classificazione
+Analizza e sposta i nuovi video nelle cartelle di destinazione.
+```bash
+python3 classify_videos.py
+```
+
+### 4. Annullamento
+In caso di errori, ripristina la posizione originale dei video analizzati nell'ultima sessione.
+```bash
+python3 undo_classification.py
+```
+
+## 📂 Struttura del Progetto
+
+```text
+├── final_trainer.py        # Addestramento del modello
+├── classify_videos.py       # Smistamento video reale
+├── simulator_classifier.py  # Test di accuratezza (no move)
+├── orchestrator.py          # Coordinamento automazione
+├── param_manager.py         # Gestore configurazione TOML
+├── undo_classification.py   # Funzione "Annulla"
+├── config.toml              # Parametri di sistema
+└── utils/
+    ├── elimina_duplicati.py  # Pulizia file identici (hash-based)
+    └── empty_video_cleaner.py # Ottimizzazione spazio per i vuoti
+```
