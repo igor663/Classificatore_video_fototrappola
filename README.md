@@ -32,7 +32,7 @@ Un sistema avanzato di visione artificiale per lo smistamento e la classificazio
 
 Il sistema è interamente gestito tramite il file `config.toml`. È possibile regolare:
 
-*   **Percorsi delle cartelle**: (`Video Con Animali`, `vuoti`, `video da analizzare`).
+*   **Percorsi delle cartelle**: (`Video Con Animali`, `vuoti`, `video da analizzare`, `falsi vuoti`).
 *   **Parametri di campionamento**: ($N_a$ frame da analizzare, soglia minima di voti).
 *   **Distribuzioni statistiche**: (Gamma $k$ e $\theta$, Exponential $\lambda$).
 *   **Soglie di sicurezza**: Parametri per la logica euristica anti-vento.
@@ -68,7 +68,7 @@ python3 undo_classification.py
 ## 📂 Struttura del Progetto
 
 ```text
-├── final_trainer.py        # Addestramento del modello
+├── final_trainer.py         # Addestramento del modello
 ├── classify_videos.py       # Smistamento video reale
 ├── simulator_classifier.py  # Test di accuratezza (no move)
 ├── orchestrator.py          # Coordinamento automazione
@@ -76,6 +76,11 @@ python3 undo_classification.py
 ├── undo_classification.py   # Funzione "Annulla"
 ├── config.toml              # Parametri di sistema
 └── utils/
-    ├── elimina_duplicati.py  # Pulizia file identici (hash-based)
-    └── empty_video_cleaner.py # Ottimizzazione spazio per i vuoti
+    ├── elimina_duplicati.py   # Pulizia file identici (hash-based)
+    ├── empty_video_cleaner.py # Rimuove video vuoti in eccesso
+    └── rinomina_vbideo.py     # Rinomina i video per data e ora
 ```
+
+## Nota Bene:
+Alcuni video potrebbero risultare con an
+
