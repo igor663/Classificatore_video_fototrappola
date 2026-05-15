@@ -78,9 +78,24 @@ python3 undo_classification.py
 └── utils/
     ├── elimina_duplicati.py   # Pulizia file identici (hash-based)
     ├── empty_video_cleaner.py # Rimuove video vuoti in eccesso
-    └── rinomina_vbideo.py     # Rinomina i video per data e ora
+    └── rinomina_vbideo.py     # Uniforma i nomi dei video per data e ora
 ```
 
 ## Nota Bene:
-Alcuni video potrebbero risultare con an
 
+Nessun sistema di IA è infallibile. Alcuni video potrebbero essere classificati come **vuoti** nonostante la presenza di fauna (Falsi Negativi). Per affinare il modello, puoi utilizzare la cartella `falsi vuoti` come set di addestramento per i casi critici.
+Spostando i video difficili in `falsi vuoti` e riavviando il training (`python3 final_trainer.py`), il classificatore Random Forest imparerà a riconoscere questi **"Hard Positives"**. Il sistema associa automaticamente il label "Animale/Rilevante" a questi file, aumentando la sensibilità dell'IA su pattern ambientali complessi.
+
+### Casi critici esemplari:
+- 1) **Mimetismo e Visione Notturna**: In condizioni di scarsa luminosità o erba alta, i pattern della pelliccia (es. lupi) possono confondersi con lo sfondo. Fornire esempi di questo tipo aiuta il modello a distinguere il movimento organico dal fruscio delle foglie.
+
+![foto lupi nell'erba alta](/images_for_readme/Foto_lupi_erba%20_alta.png)
+
+- 2) **Soggetti Piccoli o Veloci**: Piccoli uccelli che occupano una porzione minima del frame possono essere scambiati per rumore digitale. L'addestramento specifico previene che l'algoritmo si focalizzi solo su animali di grandi dimensioni.
+
+![foto uccello](/images_for_readme/Foto_uccello.png)
+
+- 3) **Soggetti Inconsueti (Non-Animali)** Nell'immagine sottostante, si può vedere che anche un trattore è stato ripreso dalla fototrappola. Sebbene MobileNetV2 sia pre-addestrata su migliaia di oggetti nel nostro codice viene usata riconoscere pattern di pelliccie animali. Pertanto un trattore, che non è un animale, verrebbe classificato come "vuoto".
+Ma il classificatore finale deve capire cosa *tu* consideri rilevante, e nel nostro caso esso è rilevante! Allora inserirlo nei `falsi vuoti` garantisce che non venga ignorato.
+
+![foto trattore](/images_for_readme/foto_trattore.png)

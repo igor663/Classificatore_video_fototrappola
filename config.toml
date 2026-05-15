@@ -6,7 +6,6 @@ base_dir = "/home/igor/Videos/Video Fototrappola"
 folder_animals = "Video Con Animali"
 folder_false_empty = "falsi vuoti"
 folder_empty = "vuoti"
-folder_others = "video con altro"
 folder_to_analyze = "video da analizzare"
 
 # Nome del file dove verrà salvato il "cervello" dell'IA
