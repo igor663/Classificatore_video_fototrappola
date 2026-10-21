@@ -1,5 +1,5 @@
 """ 
-Lo script raggruppa i video per data, calcola quanti eliminarne per scendere sotto i 50 e ne tiene uno ogni  K (dove K=N_videos/50).
+Lo script raggruppa i video per data, calcola quanti eliminarne per scendere sotto il numero massimo di video per giorno e ne tiene uno ogni  K (dove K=N_videos/50).
 E' disponibile anche una modalità di simulazione (dry_run=True) che mostra quanti video verrebbero eliminati senza cancellarli realmente. 
 """
 
@@ -7,6 +7,8 @@ import os
 import math
 from collections import defaultdict
 from param_manager import ParamManager
+
+NUM_MAX_VIDEOS_PER_DAY = 30
 
 def pulisci_video_vuoti(dry_run=True):
     pm = ParamManager()
@@ -35,17 +37,17 @@ def pulisci_video_vuoti(dry_run=True):
     # 2. Analizza ogni giorno
     for data in sorted(video_per_giorno.keys()):
         files = sorted(video_per_giorno[data]) # Ordiniamoli per orario
-        n = len(files)
+        n = len(files) # numero totale di file nella cartella per quel giorno
         
-        if n <= 50:
+        if n <= NUM_MAX_VIDEOS_PER_DAY:
             print(f"{data:<12} | {n:<8} | OK (Sotto soglia)")
             continue
         
         # Calcoliamo il passo (k). Se n=150, k=3 (teniamo 1 ogni 3)
-        passo = n / 50.0
+        passo = n / NUM_MAX_VIDEOS_PER_DAY
         
         # Scegliamo quali tenere
-        indici_da_tenere = [int(i * passo) for i in range(50)]
+        indici_da_tenere = [int(i * passo) for i in range(NUM_MAX_VIDEOS_PER_DAY)]
         
         to_keep = set()
         for idx in indici_da_tenere:
